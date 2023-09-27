@@ -1,6 +1,6 @@
 {
     "name": "peedro07/pgt-rest",
-    "description": "this bundle is designed to facilitate the creation of api rest with symfony",
+    "description": "This bundle is designed to facilitate the creation of api rest with symfony",
     "type": "symfony-bundle",
     "require": {
         "php": "^8.2",
