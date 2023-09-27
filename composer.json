@@ -1,0 +1,27 @@
+{
+    "name": "peedro07/pgt-rest",
+    "description": "this bundle is designed to facilitate the creation of api rest with symfony",
+    "type": "symfony-bundle",
+    "require": {
+        "php": "^8.2",
+        "symfony/http-foundation": "6.2.*",
+        "symfony/event-dispatcher": "6.2.*",
+        "symfony/http-kernel": "6.2.*",
+        "symfony/framework-bundle": "6.2.*",
+        "symfony/serializer": "6.2.*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PgtRest\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Waflart Pierre",
+            "email": "contact@pierre-waflart.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
