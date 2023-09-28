@@ -1,6 +1,6 @@
 <?php
 
-namespace PgtRest\Controller;
+namespace PGTRest\Controller;
 
 use ResponseOptionsService;
 use ReflectionClass;

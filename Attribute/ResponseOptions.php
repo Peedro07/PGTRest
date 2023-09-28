@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Attribute;
+namespace PGTRest\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
 class ResponseOptions
