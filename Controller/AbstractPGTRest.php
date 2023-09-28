@@ -2,7 +2,7 @@
 
 namespace PGTRest\Controller;
 
-use ResponseOptionsService;
+use PGTRest\Service\ResponseOptionsService;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
