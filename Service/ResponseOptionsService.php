@@ -1,5 +1,6 @@
 <?php
 
+namespace PGTRest\Service;
 
 class ResponseOptionsService
 {
