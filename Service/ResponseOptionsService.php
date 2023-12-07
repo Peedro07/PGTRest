@@ -4,15 +4,47 @@ namespace PGTRest\Service;
 
 class ResponseOptionsService
 {
-    private array $responseOptions;
+    private int $statusCode;
 
-    public function setOptions($statusCode, $groups): void
+    private array $groups;
+
+    public function __construct()
     {
-        $this->responseOptions = ['statusCode' => $statusCode, 'groups' => $groups];
+        $this->statusCode = 200;
+        $this->groups = [];
     }
 
-    public function getOptions(): array
+    /**
+     * @return int
+     */
+    public function getStatusCode(): int
     {
-        return $this->responseOptions;
+        return $this->statusCode;
     }
+
+    /**
+     * @param int $statusCode
+     */
+    public function setStatusCode(int $statusCode): void
+    {
+        $this->statusCode = $statusCode;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGroups(): array
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @param array $groups
+     */
+    public function setGroups(array $groups): void
+    {
+        $this->groups = $groups;
+    }
+
+
 }

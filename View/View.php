@@ -1,13 +1,13 @@
 <?php
 
-namespace PgtRest\View;
+namespace PGTRest\View;
 
 final class View
 {
     private array $data;
     private int $statusCode;
 
-    public function __construct($data = null, ?int $statusCode = null, array $headers = [])
+    public function __construct($data = [], ?int $statusCode = 500, array $headers = [])
     {
         $this->setData($data);
         $this->setStatusCode($statusCode);
@@ -43,6 +43,11 @@ final class View
     public function setStatusCode(int $statusCode): void
     {
         $this->statusCode = $statusCode;
+    }
+
+    public function createView()
+    {
+        return 'ok';
     }
 
 }

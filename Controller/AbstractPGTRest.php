@@ -3,19 +3,17 @@
 namespace PGTRest\Controller;
 
 use PGTRest\Service\ResponseOptionsService;
+use PGTRest\Service\SerializerPGT;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
-use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 
 
-class AbstractPGTRest extends AbstractController
+
+
+abstract class AbstractPGTRest extends AbstractController
 {
     private ResponseOptionsService $responseOptionsService;
 
@@ -26,34 +24,22 @@ class AbstractPGTRest extends AbstractController
 
     protected function view(array $data = [], $statusCode = null, $groups = null): JsonResponse
     {
-        $responseOptions = $this->responseOptionsService->getOptions();
-        $code = $statusCode ?? $responseOptions['statusCode'];
-        $groupsSerialize = $groups ?? $responseOptions['groups'];
+        //dd('aie');
+        $spgt = new SerializerPGT();
+        $serializer = $spgt->serializer();
+        $jsons = $this->normalizeArray($data, $serializer, $this->responseOptionsService->getGroups());
 
-        $serializer = $this->serializer();
-        if (empty($data)) {
-            return new JsonResponse(null, $code);
-        }
-
-        $jsons = $this->normalizeArray($data, $serializer, $groupsSerialize);
-
-
-        return new JsonResponse(array_merge($jsons), $code);
+        return new JsonResponse(array_merge($jsons), $this->responseOptionsService->getStatusCode());
     }
 
-    protected function serializer(): Serializer
-    {
-        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader());
-        $normalizer = new ObjectNormalizer($classMetadataFactory);
-        return new Serializer([new DateTimeNormalizer(['datetime_format' => 'Y-m-d']), $normalizer]);
-    }
+
 
     private function nameEntity(object $entity): string
     {
         return ltrim(strtolower(preg_replace('/([A-Z])/', '_$1', (new ReflectionClass($entity))->getShortName())), '_');
     }
 
-    protected function jsonDecode(Request $request, $associative = true)
+    public function jsonDecode(Request $request, $associative = true)
     {
         return json_decode($request->getContent(), $associative);
     }
@@ -61,7 +47,6 @@ class AbstractPGTRest extends AbstractController
     protected function normalizeArray($array, $serializer, $groupsSerialize): JsonResponse|array
     {
         $result = [];
-
         foreach ($array as $key => $item) {
             if (is_object($item)) {
                 try {

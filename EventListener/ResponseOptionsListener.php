@@ -1,34 +1,32 @@
 <?php
+// src/PGTRest/EventListener/ResponseOptionsListener.php
 
-namespace App\EventSubscriber;
+namespace PGTRest\EventListener;
 
+use PGTRest\Attribute\ResponseOptions;
+use PGTRest\Controller\ControllerBasePGT;
+use PGTRest\Service\ResponseOptionsService;
 use ReflectionException;
 use ReflectionMethod;
-use ResponseOptionsService;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 
-class ResponseOptionsSubscriber implements EventSubscriberInterface
+class ResponseOptionsListener
 {
     private ResponseOptionsService $responseOptionsService;
+    private ControllerBasePGT $controllerBase;
 
+    /**
+     * @param ResponseOptionsService $responseOptionsService
+     */
     public function __construct(ResponseOptionsService $responseOptionsService)
     {
         $this->responseOptionsService = $responseOptionsService;
     }
 
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::CONTROLLER_ARGUMENTS => 'onControllerArguments',
-        ];
-    }
-
     /**
      * @throws ReflectionException
      */
-    public function onControllerArguments(ControllerArgumentsEvent $event): void
+    public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
     {
         $controller = $event->getController();
         if (is_array($controller)) {
@@ -41,8 +39,8 @@ class ResponseOptionsSubscriber implements EventSubscriberInterface
                 $responseOptionsAttribute = $attributes[0]->newInstance();
                 $statusCode = $responseOptionsAttribute->getStatusCode();
                 $groups = $responseOptionsAttribute->getGroups();
-
-                $this->responseOptionsService->setOptions($statusCode, $groups);
+                $this->responseOptionsService->setGroups($groups);
+                $this->responseOptionsService->setStatusCode($statusCode);
             }
         }
     }

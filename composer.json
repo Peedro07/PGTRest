@@ -9,7 +9,8 @@
         "symfony/http-kernel": "6.3.*",
         "symfony/framework-bundle": "6.3.*",
         "symfony/serializer": "6.3.*",
-        "symfony/dependency-injection": "6.3.*"
+        "symfony/dependency-injection": "6.3.*",
+        "doctrine/annotations": "^2.0"
     },
     "license": "MIT",
     "autoload": {
