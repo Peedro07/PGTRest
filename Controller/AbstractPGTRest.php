@@ -24,7 +24,6 @@ abstract class AbstractPGTRest extends AbstractController
 
     protected function view(array $data = [], $statusCode = null, $groups = null): JsonResponse
     {
-        //dd('aie');
         $spgt = new SerializerPGT();
         $serializer = $spgt->serializer();
         $jsons = $this->normalizeArray($data, $serializer, $this->responseOptionsService->getGroups());

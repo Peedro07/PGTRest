@@ -3,8 +3,6 @@
 namespace PGTRest;
 
 use PGTRest\Controller\AbstractPGTRest;
-use PGTRest\Controller\ControllerBasePGT;
-use PGTRest\DependencyInjection\Compiler\ControllerPublicCompilerPass;
 use PGTRest\EventListener\ResponseOptionsListener;
 use PGTRest\EventSubscriber\ControllerSubscriber;
 use PGTRest\Service\ResponseOptionsService;
@@ -37,10 +35,6 @@ class PGTRestBundle extends Bundle
         $abstractPGTRestDefinition->addArgument(new Reference('pgt_rest.response_options_service'));
         $container->setDefinition('pgt_rest.abstract_pgtrest', $abstractPGTRestDefinition);
 
-        // Controller: ControllerBasePGT
-        $controllerBasePGTDefinition = new Definition(ControllerBasePGT::class);
-        // ... Add any additional configuration for ControllerBasePGT if needed
-        $container->setDefinition('pgt_rest.controller_base_pgt', $controllerBasePGTDefinition);
 
         $container->registerForAutoconfiguration(AbstractPGTRest::class)
             ->addTag('controller.service_arguments');

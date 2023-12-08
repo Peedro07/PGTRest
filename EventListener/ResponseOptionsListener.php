@@ -4,7 +4,6 @@
 namespace PGTRest\EventListener;
 
 use PGTRest\Attribute\ResponseOptions;
-use PGTRest\Controller\ControllerBasePGT;
 use PGTRest\Service\ResponseOptionsService;
 use ReflectionException;
 use ReflectionMethod;
@@ -13,7 +12,6 @@ use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 class ResponseOptionsListener
 {
     private ResponseOptionsService $responseOptionsService;
-    private ControllerBasePGT $controllerBase;
 
     /**
      * @param ResponseOptionsService $responseOptionsService
