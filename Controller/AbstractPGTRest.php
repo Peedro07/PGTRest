@@ -22,10 +22,11 @@ abstract class AbstractPGTRest extends AbstractController
     protected function view(array $data = [], $statusCode = null, $groups = null): JsonResponse
     {
         $statusCode = $statusCode ?? $this->responseOptionsService->getStatusCode();
+        $groups = $groups ?? $this->responseOptionsService->getGroups();
         $serializerPGT = new SerializerPGT();
         $json = $serializerPGT->normalizeData($data, $groups);
 
-        return new JsonResponse(array_merge($json), $statusCode);
+        return new JsonResponse($json, $statusCode);
     }
 
 
