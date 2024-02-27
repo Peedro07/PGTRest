@@ -25,29 +25,23 @@ class SerializerPGT
 
     private function nameEntity(object $entity): string
     {
-        $reflectionClass = new ReflectionClass($entity);
-
-        $className = ltrim(strtolower(preg_replace('/([A-Z])/', '_$1', $reflectionClass->getShortName())), '_');
-
-        while ($parentClass = $reflectionClass->getParentClass()) {
-            $className = ltrim(strtolower(preg_replace('/([A-Z])/', '_$1', $parentClass->getShortName())), '_');
-            $reflectionClass = $parentClass;
-        }
-
-        return $className;
+        return ltrim(strtolower(preg_replace('/([A-Z])/', '_$1', (new ReflectionClass($entity))->getShortName())), '_');
     }
 
     public function normalizeData($array, $groups): JsonResponse|array
     {
 
         $result = $this->serializeData($array, $groups);
-
         foreach ($result as $key => $value) {
             if (is_array($value) && count($value) === 1) {
-                $result[$key] = $value[0];
+                if(isset($value[$key])){
+                    $data = $value[$key];
+                } else {
+                    $data = $value[0];
+                }
+                $result[$key] = $data;
             }
         }
-
         return $result;
     }
 
@@ -55,7 +49,6 @@ class SerializerPGT
     {
         $spgt = new SerializerPGT();
         $serializer = $spgt->serializer();
-
         $result = [];
         foreach ($array as $key => $item) {
             if (is_object($item)) {
@@ -68,7 +61,15 @@ class SerializerPGT
                     return new JsonResponse(['error' => $e->getMessage()], 500);
                 }
             } else {
-                $result[$key] = $item;
+                if (is_array($item)) {
+                    if (is_object($item[0])) {
+                        $result[$this->nameEntity($item[0])] = $this->serializeData($item, $groups);
+                    } else {
+                        $result[$key] = $item;
+                    }
+                } else {
+                    $result[$key] = $item;
+                }
             }
         }
         return $result;
