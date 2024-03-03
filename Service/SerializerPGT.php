@@ -25,7 +25,16 @@ class SerializerPGT
 
     private function nameEntity(object $entity): string
     {
-        return ltrim(strtolower(preg_replace('/([A-Z])/', '_$1', (new ReflectionClass($entity))->getShortName())), '_');
+        $reflectionClass = new ReflectionClass($entity);
+
+        $className = ltrim(strtolower(preg_replace('/([A-Z])/', '_$1', $reflectionClass->getShortName())), '_');
+
+        while ($parentClass = $reflectionClass->getParentClass()) {
+            $className = ltrim(strtolower(preg_replace('/([A-Z])/', '_$1', $parentClass->getShortName())), '_');
+            $reflectionClass = $parentClass;
+        }
+
+        return $className;
     }
 
     public function normalizeData($array, $groups): JsonResponse|array
@@ -34,7 +43,7 @@ class SerializerPGT
         $result = $this->serializeData($array, $groups);
         foreach ($result as $key => $value) {
             if (is_array($value) && count($value) === 1) {
-                if(isset($value[$key])){
+                if (isset($value[$key])) {
                     $data = $value[$key];
                 } else {
                     $data = $value[0];
