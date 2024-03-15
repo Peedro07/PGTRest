@@ -71,7 +71,7 @@ class SerializerPGT
                 }
             } else {
                 if (is_array($item)) {
-                    if (is_object($item[0])) {
+                    if (count($item) > 0 && is_object($item[0])) {
                         $result[$this->nameEntity($item[0])] = $this->serializeData($item, $groups);
                     } else {
                         $result[$key] = $item;
