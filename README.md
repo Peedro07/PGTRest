@@ -1,6 +1,6 @@
 # PGTRest
 
-## Bundle for Simplified API Creation
+## Bundle for Simplified Symfony API Creation
 
 This bundle streamlines API development using convenient annotations. It requires the extension of `AbstractPGTRest`.
 
@@ -9,7 +9,7 @@ This bundle streamlines API development using convenient annotations. It require
 To begin, extend the bundle in your controller:
 
 ```php
-class AuthController extends AbstractPGTRest
+class UserController extends AbstractPGTRest
 ```
 
 Ensure the `responseOptionsService` is initialized by invoking the parent constructor:
