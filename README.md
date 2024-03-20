@@ -1,7 +1,7 @@
 # PGTRest
 
 ## Bundle to simplify Symfony API creation
-*Version 1.6 of the bundle works with Symfony 6.4.*
+*Version 2.0. of the bundle works with Symfony 7.x.x*
 
 This bundle streamlines API development using convenient annotations. It requires the extension of `AbstractPGTRest`.
 
