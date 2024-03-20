@@ -2,11 +2,11 @@
 
 namespace PGTRest\Service;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
-use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
+use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use ReflectionClass;
@@ -17,10 +17,14 @@ class SerializerPGT
 
     public function serializer(): Serializer
     {
-        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
-        $normalizer = new ObjectNormalizer($classMetadataFactory);
+        $classMetadataFactory = new ClassMetadataFactory(new AttributeLoader());
 
-        return new Serializer([new DateTimeNormalizer(['datetime_format' => 'Y-m-d']), $normalizer]);
+        $metadataAwareNameConverter = new MetadataAwareNameConverter($classMetadataFactory);
+
+        return new Serializer(
+            [new ObjectNormalizer($classMetadataFactory, $metadataAwareNameConverter)],
+            ['json' => new JsonEncoder()]
+        );
     }
 
     private function nameEntity(object $entity): string
