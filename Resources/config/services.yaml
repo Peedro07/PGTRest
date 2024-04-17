@@ -1,0 +1,8 @@
+services:
+    # Autoconfiguration des contrôleurs
+    PGTRest\Controller\:
+        resource: '../../Controller/'
+        tags: ['controller.service_arguments']
+
+    # Alias pour PGTRest\Service\ResponseOptionsService
+    'PGTRest\Service\ResponseOptionsService': '@pgt_rest.response_options_service'

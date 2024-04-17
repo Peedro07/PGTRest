@@ -1,0 +1,28 @@
+{
+    "name": "peedro07/symfony-api-rest-bundle",
+    "description": "This bundle, with Symfony, makes it easier to manage the rendering of your data",
+    "type": "symfony-bundle",
+    "require": {
+        "php": "^8.2",
+        "symfony/http-foundation": "^7.0",
+        "symfony/event-dispatcher": "^7.0",
+        "symfony/http-kernel": "^7.0",
+        "symfony/framework-bundle": "^7.0",
+        "symfony/serializer": "^7.0",
+        "symfony/dependency-injection": "^7.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PGTRest\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Waflart Pierre",
+            "email": "contact@pierre-waflart.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
