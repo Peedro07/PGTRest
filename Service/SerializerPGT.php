@@ -54,9 +54,9 @@ class SerializerPGT
                     $normalizedItem = $serializer->normalize($item, null, ['groups' => $groups]);
                     if (!is_numeric($key)) {
                         $result[$key] = $normalizedItem;
-                    } elseif($defaultKey) {
+                    } elseif ($defaultKey) {
                         $result[$defaultKey][] = $normalizedItem;
-                    }else{
+                    } else {
                         $result[$this->nameEntity($item)][] = $normalizedItem;
                     }
                 } catch (\Exception $e) {
@@ -66,7 +66,7 @@ class SerializerPGT
                 }
             } else if (is_array($item)) {
                 if (count($item) > 0 && is_object($item[0])) {
-                    if(!is_numeric($key)){
+                    if (!is_numeric($key)) {
                         $result[$key] = $this->serializeData($item, $groups, $key);
                     } else {
                         $result[$this->nameEntity($item[0])] = $this->serializeData($item, $groups);
@@ -78,6 +78,23 @@ class SerializerPGT
                 $result[$key] = $item;
             }
         }
-        return $result;
+
+        return $this->normalizeData($result);
+    }
+
+    private function normalizeData($json)
+    {
+        foreach ($json as $key => $value) {
+            if (is_array($value) && count($value) === 1) {
+                if (isset($value[$key])) {
+                    $data = $value[$key];
+                } else {
+                    $data = $value;
+                }
+                $json[$key] = $data;
+            }
+        }
+
+        return $json;
     }
 }
