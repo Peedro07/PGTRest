@@ -44,18 +44,6 @@ class SerializerPGT
         return $className;
     }
 
-    public function normalizeData($array, $groups): JsonResponse|array
-    {
-        $result = $this->serializeData($array, $groups);
-        foreach ($result as $key => $value) {
-            if (is_array($value) && count($value) === 1) {
-                $data = $value[$key] ?? $value[0];
-                $result[$key] = $data;
-            }
-        }
-        return $result;
-    }
-
     public function serializeData($array, $groups, $defaultKey = null): JsonResponse|array
     {
         $serializer = $this->serializer();
