@@ -23,8 +23,9 @@ abstract class AbstractPGTRest extends AbstractController
     {
         $statusCode = $statusCode ?? $this->responseOptionsService->getStatusCode();
         $groups = $groups ?? $this->responseOptionsService->getGroups();
+        $formDate = $this->responseOptionsService->getFormatDate();
         $serializerPGT = new SerializerPGT();
-        $json = $serializerPGT->serializeData($data, $groups);
+        $json = $serializerPGT->serializeData($data, $groups, $formDate);
 
         return new JsonResponse($json, $statusCode);
     }

@@ -9,11 +9,13 @@ class ResponseOptions
 {
     private int $statusCode;
     private array $groups;
+    private string $formatDate;
 
-    public function __construct(int $statusCode, array $groups = [])
+    public function __construct(int $statusCode, array $groups = [], string $formatDate = "Y-m-d H:i:s")
     {
         $this->statusCode = $statusCode;
         $this->groups = $groups;
+        $this->formatDate = $formatDate;
     }
 
     /**
@@ -23,7 +25,6 @@ class ResponseOptions
     {
         return $this->statusCode;
     }
-
     /**
      * @return array
      */
@@ -31,4 +32,11 @@ class ResponseOptions
     {
         return $this->groups;
     }
+
+    public function getFormatDate(): string
+    {
+        return $this->formatDate;
+    }
+
+
 }

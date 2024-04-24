@@ -36,8 +36,10 @@ class ResponseOptionsListener
                 $responseOptionsAttribute = $attributes[0]->newInstance();
                 $statusCode = $responseOptionsAttribute->getStatusCode();
                 $groups = $responseOptionsAttribute->getGroups();
+                $formatDate = $responseOptionsAttribute->getFormatDate();
                 $this->responseOptionsService->setGroups($groups);
                 $this->responseOptionsService->setStatusCode($statusCode);
+                $this->responseOptionsService->setFormatDate($formatDate);
             }
         }
     }

@@ -8,10 +8,13 @@ class ResponseOptionsService
 
     private array $groups;
 
+    private string $formatDate;
+
     public function __construct()
     {
         $this->statusCode = 200;
         $this->groups = [];
+        $this->formatDate = "Y-m-d H:i:s";
     }
 
     /**
@@ -46,5 +49,14 @@ class ResponseOptionsService
         $this->groups = $groups;
     }
 
+    public function getFormatDate(): string
+    {
+        return $this->formatDate;
+    }
+
+    public function setFormatDate(string $formatDate): void
+    {
+        $this->formatDate = $formatDate;
+    }
 
 }

@@ -16,14 +16,14 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface;
 class SerializerPGT
 {
 
-    public function serializer(): Serializer
+    public function serializer($formatDate): Serializer
     {
         $classMetadataFactory = new ClassMetadataFactory(new AttributeLoader());
         $metadataAwareNameConverter = new MetadataAwareNameConverter($classMetadataFactory);
 
         return new Serializer(
             [
-                new DateTimeNormalizer(['datetime_format' => 'Y-m-d']),
+                new DateTimeNormalizer(['datetime_format' => $formatDate ?? 'Y-m-d H:i:s']),
                 new ObjectNormalizer($classMetadataFactory, $metadataAwareNameConverter)
             ],
             ['json' => new JsonEncoder()]
@@ -44,9 +44,9 @@ class SerializerPGT
         return $className;
     }
 
-    public function serializeData($array, $groups, $defaultKey = null): JsonResponse|array
+    public function serializeData($array, $groups, $formatDate, $defaultKey = null): JsonResponse|array
     {
-        $serializer = $this->serializer();
+        $serializer = $this->serializer($formatDate);
         $result = [];
         foreach ($array as $key => $item) {
             if (is_object($item)) {
@@ -67,9 +67,9 @@ class SerializerPGT
             } else if (is_array($item)) {
                 if (count($item) > 0 && is_object($item[0])) {
                     if (!is_numeric($key)) {
-                        $result[$key] = $this->serializeData($item, $groups, $key);
+                        $result[$key] = $this->serializeData($item, $groups, $formatDate, $key);
                     } else {
-                        $result[$this->nameEntity($item[0])] = $this->serializeData($item, $groups);
+                        $result[$this->nameEntity($item[0])] = $this->serializeData($item, $groups, $formatDate);
                     }
                 } else {
                     $result[$key] = $item;

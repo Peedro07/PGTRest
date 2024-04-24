@@ -49,7 +49,7 @@ use Symfony\Component\Routing\Attribute\Route;
     }
 
     #[Route('/users', name: 'app_users_get', methods: ["GET"])]
-    #[ResponseOptions(statusCode: 200, groups: ["user:read"])] // Set the response options with the desired status code and serialization group
+    #[ResponseOptions(statusCode: 200, groups: ["user:read"], formatDate: 'Y-m-d']) // Set the response options with the desired status code and serialization group
     public function index(UserRepository $userRepository): Response
     {
         $users = $userRepository->findAll();
@@ -89,3 +89,11 @@ use Symfony\Component\Routing\Attribute\Route;
 ```
 
 Note: The view method accepts an array of data and optional parameters for $statusCode and $groups
+
+### Additional Features
+When the `formatDate` option is set, the bundle will format the date fields in the response according to the specified format.
+```php
+#[ResponseOptions(statusCode: 200, groups: ["user:read"], formatDate: 'Y-m-d']) 
+```
+
+
