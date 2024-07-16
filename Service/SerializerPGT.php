@@ -65,7 +65,9 @@ class SerializerPGT
                     return new JsonResponse(['error' => $e->getMessage()], 500);
                 }
             } else if (is_array($item)) {
-                if (count($item) > 0 && is_object($item[0])) {
+                reset($item);
+                $firstKey = key($item);
+                if (count($item) > 0 && is_object($item[$firstKey])) {
                     if (!is_numeric($key)) {
                         $result[$key] = $this->serializeData($item, $groups, $formatDate, $key);
                     } else {
